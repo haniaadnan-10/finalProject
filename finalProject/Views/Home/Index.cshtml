@@ -1,8 +1,44 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<h1>Student Management System</h1>
+<p>Welcome to the Student Management Dashboard.</p>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3>Students</h3>
+                <a asp-controller="Students" asp-action="Index"
+                   class="btn btn-primary">Manage</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3>Departments</h3>
+                <a asp-controller="Departments" asp-action="Index"
+                   class="btn btn-success">Manage</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3>Courses</h3>
+                <a asp-controller="Courses" asp-action="Index"
+                   class="btn btn-warning">Manage</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3>Teachers</h3>
+                <a asp-controller="Teachers" asp-action="Index"
+                   class="btn btn-info">Manage</a>
+            </div>
+        </div>
+    </div>
 </div>

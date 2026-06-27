@@ -19,15 +19,15 @@ public class TeachersController : Controller
     }
 
     // GET: TEACHERS/Details/5
-    public async Task<IActionResult> Details(int? teacherid)
+    public async Task<IActionResult> Details(int? id)
     {
-        if (teacherid == null)
+        if (id == null)
         {
             return NotFound();
         }
 
         var teacher = await _context.Teachers
-            .FirstOrDefaultAsync(m => m.TeacherId == teacherid);
+            .FirstOrDefaultAsync(m => m.TeacherId == id);
         if (teacher == null)
         {
             return NotFound();
@@ -59,14 +59,14 @@ public class TeachersController : Controller
     }
 
     // GET: TEACHERS/Edit/5
-    public async Task<IActionResult> Edit(int? teacherid)
+    public async Task<IActionResult> Edit(int? id)
     {
-        if (teacherid == null)
+        if (id == null)
         {
             return NotFound();
         }
 
-        var teacher = await _context.Teachers.FindAsync(teacherid);
+        var teacher = await _context.Teachers.FindAsync(id);
         if (teacher == null)
         {
             return NotFound();
@@ -79,9 +79,9 @@ public class TeachersController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? teacherid, [Bind("TeacherId,TeacherName,Email,DepartmentId,Department")] Teacher teacher)
+    public async Task<IActionResult> Edit(int? id, [Bind("TeacherId,TeacherName,Email,DepartmentId,Department")] Teacher teacher)
     {
-        if (teacherid != teacher.TeacherId)
+        if (id != teacher.TeacherId)
         {
             return NotFound();
         }
@@ -110,15 +110,15 @@ public class TeachersController : Controller
     }
 
     // GET: TEACHERS/Delete/5
-    public async Task<IActionResult> Delete(int? teacherid)
+    public async Task<IActionResult> Delete(int? id)
     {
-        if (teacherid == null)
+        if (id == null)
         {
             return NotFound();
         }
 
         var teacher = await _context.Teachers
-            .FirstOrDefaultAsync(m => m.TeacherId == teacherid);
+            .FirstOrDefaultAsync(m => m.TeacherId == id);
         if (teacher == null)
         {
             return NotFound();
@@ -130,9 +130,9 @@ public class TeachersController : Controller
     // POST: TEACHERS/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int? teacherid)
+    public async Task<IActionResult> DeleteConfirmed(int? id)
     {
-        var teacher = await _context.Teachers.FindAsync(teacherid);
+        var teacher = await _context.Teachers.FindAsync(id);
         if (teacher != null)
         {
             _context.Teachers.Remove(teacher);
@@ -142,8 +142,8 @@ public class TeachersController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    private bool TeacherExists(int? teacherid)
+    private bool TeacherExists(int? id)
     {
-        return _context.Teachers.Any(e => e.TeacherId == teacherid);
+        return _context.Teachers.Any(e => e.TeacherId == id);
     }
 }

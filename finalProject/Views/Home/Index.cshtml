@@ -1,57 +1,113 @@
-﻿@{
+﻿@using finalProject.Models
+
+@{
     ViewData["Title"] = "Dashboard";
+
+    <p class="text-muted mb-4">
+        Semester: Spring 2026 | Last Updated: @DateTime.Now.ToString("dd MMM yyyy")
+    </p>
+
+    var students = ViewBag.RecentStudents as List<Student>;
+    var enrollments = ViewBag.RecentEnrollments as List<Enrollment>;
 }
 
-<div class="content-header mb-4">
-    <h1 class="display-6 fw-bold">
-        🎓 Student Management Dashboard
-    </h1>
-    <p class="text-muted">
-        Welcome back! Here's an overview of your system.
-    </p>
-</div>
+<h2 class="mb-4">
+    🎓 Student Management Dashboard
+</h2>
 
-<!-- Statistics Cards -->
+<!-- Statistics -->
 <div class="row">
 
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm">
+    <div class="col-md-2">
+        <div class="card text-center shadow">
             <div class="card-body">
-                <h6 class="text-muted">Total Students</h6>
-                <h2>120</h2>
-                <small class="text-success">+12 this semester</small>
+                <h1>@ViewBag.TotalStudents</h1>
+                <p>Students</p>
             </div>
         </div>
     </div>
 
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm">
+    <div class="col-md-2">
+        <div class="card text-center shadow">
             <div class="card-body">
-                <h6 class="text-muted">Departments</h6>
-                <h2>5</h2>
-                <small>Computer Science, AI, IT...</small>
+                <h1>@ViewBag.TotalDepartments</h1>
+                <p>Departments</p>
             </div>
         </div>
     </div>
 
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm">
+    <div class="col-md-2">
+        <div class="card text-center shadow">
             <div class="card-body">
-                <h6 class="text-muted">Courses</h6>
-                <h2>18</h2>
-                <small>Active this semester</small>
+                <h1>@ViewBag.TotalCourses</h1>
+                <p>Courses</p>
             </div>
         </div>
     </div>
 
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm">
+    <div class="col-md-2">
+        <div class="card text-center shadow">
             <div class="card-body">
-                <h6 class="text-muted">Teachers</h6>
-                <h2>10</h2>
-                <small>Faculty members</small>
+                <h1>@ViewBag.TotalTeachers</h1>
+                <p>Teachers</p>
             </div>
         </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <h1>@ViewBag.TotalEnrollments</h1>
+                <p>Enrollments</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Management Shortcuts -->
+<div class="card shadow-sm mb-4">
+
+    <div class="card-header">
+        <h4 class="mb-0">
+            Management Shortcuts
+        </h4>
+    </div>
+
+    <div class="card-body">
+
+        <div class="d-flex gap-3 flex-wrap">
+
+            <a asp-controller="Students"
+               asp-action="Create"
+               class="btn btn-primary">
+                <i class="fas fa-user-plus"></i>
+                Add Student
+            </a>
+
+            <a asp-controller="Teachers"
+               asp-action="Create"
+               class="btn btn-success">
+                <i class="fas fa-chalkboard-teacher"></i>
+                Add Teacher
+            </a>
+
+            <a asp-controller="Courses"
+               asp-action="Create"
+               class="btn btn-warning">
+                <i class="fas fa-book"></i>
+                Add Course
+            </a>
+
+            <a asp-controller="Enrollments"
+               asp-action="Create"
+               class="btn btn-danger">
+                <i class="fas fa-clipboard-list"></i>
+                New Enrollment
+            </a>
+
+        </div>
+
     </div>
 
 </div>
@@ -59,36 +115,39 @@
 <!-- Second Row -->
 <div class="row mt-4">
 
-    <!-- Recent Activities -->
-    <div class="col-md-8">
+    <!-- Recent Students -->
+    <div class="col-md-6">
 
-        <div class="card shadow-sm">
+        <div class="card shadow">
 
             <div class="card-header">
-                <h5 class="mb-0">Recent Activities</h5>
+                <h5>Recent Students</h5>
             </div>
 
             <div class="card-body">
 
-                <ul class="list-group list-group-flush">
+                <table class="table table-striped">
 
-                    <li class="list-group-item">
-                        ✅ New student "Ali Khan" enrolled in BSCS
-                    </li>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
 
-                    <li class="list-group-item">
-                        📚 Database Systems course added
-                    </li>
+                    <tbody>
 
-                    <li class="list-group-item">
-                        👨‍🏫 Dr. Ahmed assigned to Operating Systems
-                    </li>
+                        @foreach (var s in students)
+                        {
+                            <tr>
+                                <td>@s.StudentId</td>
+                                <td>@s.FirstName @s.LastName</td>
+                            </tr>
+                        }
 
-                    <li class="list-group-item">
-                        📝 Semester registrations completed
-                    </li>
+                    </tbody>
 
-                </ul>
+                </table>
 
             </div>
 
@@ -96,40 +155,39 @@
 
     </div>
 
-    <!-- Quick Actions -->
-    <div class="col-md-4">
+    <!-- Recent Enrollments -->
+    <div class="col-md-6">
 
-        <div class="card shadow-sm">
+        <div class="card shadow">
 
             <div class="card-header">
-                <h5 class="mb-0">Quick Actions</h5>
+                <h5>Recent Enrollments</h5>
             </div>
 
-            <div class="card-body d-grid gap-2">
+            <div class="card-body">
 
-                <a asp-controller="Students"
-                   asp-action="Create"
-                   class="btn btn-primary">
-                    ➕ Add Student
-                </a>
+                <table class="table table-striped">
 
-                <a asp-controller="Courses"
-                   asp-action="Create"
-                   class="btn btn-warning">
-                    📚 Add Course
-                </a>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Course</th>
+                        </tr>
+                    </thead>
 
-                <a asp-controller="Teachers"
-                   asp-action="Create"
-                   class="btn btn-success">
-                    👨‍🏫 Add Teacher
-                </a>
+                    <tbody>
 
-                <a asp-controller="Enrollments"
-                   asp-action="Create"
-                   class="btn btn-danger">
-                    📝 New Enrollment
-                </a>
+                        @foreach (var e in enrollments)
+                        {
+                            <tr>
+                                <td>@e.Student?.FirstName @e.Student?.LastName</td>
+                                <td>@e.Course?.CourseName</td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
 
             </div>
 
@@ -138,3 +196,5 @@
     </div>
 
 </div>
+
+

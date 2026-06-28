@@ -13,9 +13,12 @@ public class CoursesController : Controller
     }
 
     // GET: COURSES
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index()
     {
-        return View(await _context.Courses.ToListAsync());
+        return View(await _context.Courses
+            .Include(c => c.Department)
+            .Include(c => c.Enrollments)
+            .ToListAsync());
     }
 
     // GET: COURSES/Details/5

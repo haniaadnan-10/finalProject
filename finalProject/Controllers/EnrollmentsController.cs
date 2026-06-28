@@ -13,9 +13,12 @@ public class EnrollmentsController : Controller
     }
 
     // GET: ENROLLMENTS
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index()
     {
-        return View(await _context.Enrollments.ToListAsync());
+        return View(await _context.Enrollments
+            .Include(e => e.Student)
+            .Include(e => e.Course)
+            .ToListAsync());
     }
 
     // GET: ENROLLMENTS/Details/5

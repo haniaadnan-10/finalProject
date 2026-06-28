@@ -15,7 +15,9 @@ public class StudentsController : Controller
     // GET: STUDENTS
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Students.ToListAsync());
+        return View(await _context.Students
+    .Include(s => s.Department)
+    .ToListAsync());
     }
 
     // GET: STUDENTS/Details/5

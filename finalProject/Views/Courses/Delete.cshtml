@@ -1,58 +1,94 @@
 @model finalProject.Models.Course
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete Course";
 }
 
-<h1>Delete</h1>
+<div class="row justify-content-center">
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>finalProject.Models.Course</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CourseName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CourseName)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreditHours)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreditHours)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DepartmentId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DepartmentId)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Department)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Department)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Enrollments)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Enrollments)
-        </dd>
-    </dl>
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="CourseId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    <div class="col-lg-8">
+
+        <div class="card border-danger shadow-sm">
+
+            <div class="card-header bg-danger text-white">
+
+                <h3 class="mb-0">
+                    <i class="fas fa-trash-alt me-2"></i>
+                    Delete Course
+                </h3>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="alert alert-warning">
+
+                    <h5>
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Are you sure you want to delete this course?
+                    </h5>
+
+                    <p class="mb-0">
+                        This action cannot be undone.
+                    </p>
+
+                </div>
+
+                <table class="table table-bordered">
+
+                    <tr>
+                        <th width="30%">Course Name</th>
+                        <td>@Model.CourseName</td>
+                    </tr>
+
+                    <tr>
+                        <th>Credit Hours</th>
+                        <td>
+                            <span class="badge bg-info text-dark">
+                                @Model.CreditHours Hours
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Department</th>
+                        <td>
+                            @(Model.Department?.DepartmentName ?? "Not Assigned")
+                        </td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+            <div class="card-footer text-end">
+
+                <form asp-action="Delete">
+
+                    <input type="hidden" asp-for="CourseId" />
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary me-2">
+
+                        <i class="fas fa-arrow-left me-1"></i>
+                        Cancel
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-danger">
+
+                        <i class="fas fa-trash me-1"></i>
+                        Delete Course
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>

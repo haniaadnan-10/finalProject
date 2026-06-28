@@ -1,5 +1,5 @@
-
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using finalProject.Models;
 
@@ -24,16 +24,14 @@ public class TeachersController : Controller
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null)
-        {
             return NotFound();
-        }
 
         var teacher = await _context.Teachers
-            .FirstOrDefaultAsync(m => m.TeacherId == id);
+            .Include(t => t.Department)
+            .FirstOrDefaultAsync(t => t.TeacherId == id);
+
         if (teacher == null)
-        {
             return NotFound();
-        }
 
         return View(teacher);
     }
@@ -41,15 +39,21 @@ public class TeachersController : Controller
     // GET: TEACHERS/Create
     public IActionResult Create()
     {
+        ViewBag.DepartmentId = new SelectList(
+            _context.Departments,
+            "DepartmentId",
+            "DepartmentName"
+        );
+
         return View();
     }
 
     // POST: TEACHERS/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("TeacherId,TeacherName,Email,DepartmentId,Department")] Teacher teacher)
+    public async Task<IActionResult> Create(
+        [Bind("TeacherId,TeacherName,Email,DepartmentId")]
+        Teacher teacher)
     {
         if (ModelState.IsValid)
         {
@@ -57,6 +61,14 @@ public class TeachersController : Controller
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        ViewBag.DepartmentId = new SelectList(
+            _context.Departments,
+            "DepartmentId",
+            "DepartmentName",
+            teacher.DepartmentId
+        );
+
         return View(teacher);
     }
 
@@ -64,29 +76,33 @@ public class TeachersController : Controller
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
-        {
             return NotFound();
-        }
 
         var teacher = await _context.Teachers.FindAsync(id);
+
         if (teacher == null)
-        {
             return NotFound();
-        }
+
+        ViewBag.DepartmentId = new SelectList(
+            _context.Departments,
+            "DepartmentId",
+            "DepartmentName",
+            teacher.DepartmentId
+        );
+
         return View(teacher);
     }
 
     // POST: TEACHERS/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("TeacherId,TeacherName,Email,DepartmentId,Department")] Teacher teacher)
+    public async Task<IActionResult> Edit(
+        int? id,
+        [Bind("TeacherId,TeacherName,Email,DepartmentId")]
+        Teacher teacher)
     {
         if (id != teacher.TeacherId)
-        {
             return NotFound();
-        }
 
         if (ModelState.IsValid)
         {
@@ -98,16 +114,21 @@ public class TeachersController : Controller
             catch (DbUpdateConcurrencyException)
             {
                 if (!TeacherExists(teacher.TeacherId))
-                {
                     return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
+
             return RedirectToAction(nameof(Index));
         }
+
+        ViewBag.DepartmentId = new SelectList(
+            _context.Departments,
+            "DepartmentId",
+            "DepartmentName",
+            teacher.DepartmentId
+        );
+
         return View(teacher);
     }
 
@@ -115,16 +136,14 @@ public class TeachersController : Controller
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
-        {
             return NotFound();
-        }
 
         var teacher = await _context.Teachers
-            .FirstOrDefaultAsync(m => m.TeacherId == id);
+            .Include(t => t.Department)
+            .FirstOrDefaultAsync(t => t.TeacherId == id);
+
         if (teacher == null)
-        {
             return NotFound();
-        }
 
         return View(teacher);
     }
@@ -135,12 +154,13 @@ public class TeachersController : Controller
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {
         var teacher = await _context.Teachers.FindAsync(id);
+
         if (teacher != null)
         {
             _context.Teachers.Remove(teacher);
+            await _context.SaveChangesAsync();
         }
 
-        await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 

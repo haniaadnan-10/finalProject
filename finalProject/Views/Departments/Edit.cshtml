@@ -1,49 +1,84 @@
 @model finalProject.Models.Department
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Department";
 }
 
-<h1>Edit</h1>
+<div class="row justify-content-center">
 
-<h4>Department</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="DepartmentId" />
-            <div class="form-group">
-                <label asp-for="DepartmentName" class="control-label"></label>
-                <input asp-for="DepartmentName" class="form-control" />
-                <span asp-validation-for="DepartmentName" class="text-danger"></span>
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm">
+
+            <div class="card-header bg-warning text-dark">
+
+                <h3 class="mb-0">
+                    <i class="fas fa-edit me-2"></i>
+                    Edit Department
+                </h3>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Courses" class="control-label"></label>
-                <input asp-for="Courses" class="form-control" />
-                <span asp-validation-for="Courses" class="text-danger"></span>
+
+            <div class="card-body">
+
+                <form asp-action="Edit">
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger">
+                    </div>
+
+                    <input type="hidden" asp-for="DepartmentId" />
+
+                    <div class="mb-4">
+
+                        <label asp-for="DepartmentName"
+                               class="form-label">
+                            Department Name
+                        </label>
+
+                        <input asp-for="DepartmentName"
+                               class="form-control"
+                               placeholder="Enter department name" />
+
+                        <span asp-validation-for="DepartmentName"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <div class="text-end">
+
+                        <a asp-action="Index"
+                           class="btn btn-secondary me-2">
+
+                            <i class="fas fa-arrow-left me-1"></i>
+                            Cancel
+
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-warning">
+
+                            <i class="fas fa-save me-1"></i>
+                            Save Changes
+
+                        </button>
+
+                    </div>
+
+                </form>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Students" class="control-label"></label>
-                <input asp-for="Students" class="form-control" />
-                <span asp-validation-for="Students" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Teachers" class="control-label"></label>
-                <input asp-for="Teachers" class="form-control" />
-                <span asp-validation-for="Teachers" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+
+        </div>
+
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
